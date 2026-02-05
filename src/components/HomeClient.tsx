@@ -1,6 +1,8 @@
 "use client"
 
+import axios from "axios";
 import { AnimatePresence, motion } from "motion/react"
+import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 function HomeClient({ email }: { email?: string }) {
@@ -27,6 +29,17 @@ function HomeClient({ email }: { email?: string }) {
         { title: "Custom Knowledge Base", description: "Train your chatbot using your own documents, FAQs, and resources." },
         { title: "24/7 Support", description: "Provide round-the-clock assistance to your customers with AI-powered responses." },
     ]
+
+    const handleLogOut = async () => {
+        try {
+            const result = await axios.get('/api/auth/logout');
+            window.location.href = "/";
+        } catch (error) {
+            console.log("Logout error:", error);
+        }
+    }
+
+    const navigate = useRouter();
 
     return (
         <div className='min-h-screen bg-linear-to-br from-white to-zinc-50 text-zinc-900 overflow-x-hidden'>
@@ -58,11 +71,13 @@ function HomeClient({ email }: { email?: string }) {
                                 >
                                     <button
                                         className="w-full text-left px-4 py-3 text-sm hover:bg-zinc-100 transition"
+                                        onClick={() => navigate.push("/dashboard")}
                                     >
                                         Dashboard
                                     </button>
                                     <button
                                         className="w-full text-left px-4 py-3 text-sm text-red-600 hover:bg-zinc-100 transition"
+                                        onClick={handleLogOut}
                                     >
                                         LogOut
                                     </button>
@@ -98,6 +113,7 @@ function HomeClient({ email }: { email?: string }) {
                         <div className="mt-10 flex gap-4">
                             {email ? <button
                                 className="px-7 py-3 rounded-xl bg-black text-white font-medium hover:bg-zinc-800 transition disabled:opacity-60"
+                                onClick={() => navigate.push("/dashboard")}
                             >
                                 Go to Dashboard
                             </button> : <button
