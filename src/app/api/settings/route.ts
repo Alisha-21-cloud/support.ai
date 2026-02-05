@@ -5,25 +5,42 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(req: NextRequest) {
     try {
         const {
-            ownerId, businessName, supportEmail, knowledge
+            ownerId,
+            businessName,
+            supportEmail,
+            knowledge
         } = await req.json();
 
         if (!ownerId) {
-            return NextResponse.json({ error: "Owner ID is required" }, { status: 400 });
+            return NextResponse.json(
+                { error: "Owner ID is required" },
+                { status: 400 }
+            );
         }
 
         await connectDb();
 
+        const updateData: any = {
+            businessName,
+            supportEmail,
+        };
+
+        if (typeof knowledge === "string" && knowledge.trim() !== "") {
+            updateData.knowledge = knowledge;
+        }
+
         const settings = await Settings.findOneAndUpdate(
             { ownerId },
-            { ownerId, businessName, supportEmail, knowledge },
+            { $set: updateData },
             { new: true, upsert: true }
         );
 
         return NextResponse.json({ settings }, { status: 200 });
 
     } catch (error) {
-        return NextResponse.json({ error: `Internal Server Error: ${error}` }, { status: 500 });
+        return NextResponse.json(
+            { error: `Internal Server Error: ${error}` },
+            { status: 500 }
+        );
     }
 }
-
