@@ -20,7 +20,13 @@ function HomeClient({ email }: { email?: string }) {
         }
         document.addEventListener("mousedown", handler)
         return () => document.removeEventListener("mousedown", handler)
-    },[])
+    }, [])
+
+    const features = [
+        { title: "Easy Integration", description: "Get your AI chatbot up and running in minutes with our simple setup process." },
+        { title: "Custom Knowledge Base", description: "Train your chatbot using your own documents, FAQs, and resources." },
+        { title: "24/7 Support", description: "Provide round-the-clock assistance to your customers with AI-powered responses." },
+    ]
 
     return (
         <div className='min-h-screen bg-linear-to-br from-white to-zinc-50 text-zinc-900 overflow-x-hidden'>
@@ -32,7 +38,7 @@ function HomeClient({ email }: { email?: string }) {
             >
                 <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
                     <div className="text-lg font-semibold tracking-tight">
-                        Support<span className="text-zinc-600">AI</span>
+                        Support<span className="text-zinc-900">AI</span>
                     </div>
                     {email ? <div className="relative" ref={popupRef}>
                         <button
@@ -74,6 +80,105 @@ function HomeClient({ email }: { email?: string }) {
 
                 </div>
             </motion.div>
+
+            <section className="pt-36 pb-28 px-6">
+                <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-20 items-center">
+                    <motion.div
+                        initial={{ opacity: 0, x: 50 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.7, ease: "easeOut" }}
+                    >
+                        <h1 className="text-4xl md:text-5xl font-semibold leading-tight">
+                            AI Customer Support, <br />
+                            Built for Modern Businesses
+                        </h1>
+                        <p className="mt-6 text-lg text-zinc-600 max-w-xl">
+                            Add a powerful AI chatbot to your website in minutes. power up the chatbot with knowledge base from your docs, faqs and more.
+                        </p>
+                        <div className="mt-10 flex gap-4">
+                            {email ? <button
+                                className="px-7 py-3 rounded-xl bg-black text-white font-medium hover:bg-zinc-800 transition disabled:opacity-60"
+                            >
+                                Go to Dashboard
+                            </button> : <button
+                                className="px-7 py-3 rounded-xl bg-black text-white font-medium hover:bg-zinc-800 transition disabled:opacity-60"
+                                onClick={handleLogin}
+                            >
+                                Get Started
+                            </button>}
+
+                            <a
+                                href="#features"
+                                className="px-7 py-3 rounded-xl border border-zinc-300 text-zinc-700 hover:bg-zinc-100 transition"
+                            >
+                                Learn More
+                            </a>
+                        </div>
+
+                    </motion.div>
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.7, ease: "easeOut", delay: 0.2 }}
+                        className="relative"
+                    >
+                        <div className="rounded-2xl bg-white shadow-2xl border border-zinc-200 p-6">
+                            <div className="text-sm text-zinc-500 mb-3">
+                                Live Chat Preview
+                            </div>
+                            <div className="space-y-3">
+                                <div className="bg-black text-white rounded-lg px-4 py-2 text-sm ml-auto w-fit">Do you offer cash on delivery?</div>
+                                <div className="bg-zinc-100 rounded-lg px-4 py-2 text-sm w-fit">Yes, we do offer cash on delivery.</div>
+                            </div>
+                            <motion.div
+                                animate={{ y: [0, -12, 0] }}
+                                transition={{ repeat: Infinity, duration: 3 }}
+                                className="absolute -bottom-6 -right-6 w-14 h-14 rounded-full bg-black text-white flex items-center justify-center shadow-xl"
+                            >
+                                🗨️
+                            </motion.div>
+                        </div>
+                    </motion.div>
+                </div>
+            </section>
+
+            <section
+                id="features"
+                className="bg-zinc-50 py-28 px-6 border-t border-zinc-200"
+            >
+                <div className="max-w-6xl mx-auto">
+                    <motion.h2
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once:false }}
+                        transition={{ duration: 0.7, ease: "easeOut" }}
+                        className="text-3xl font-semibold text-center"
+                    >
+                        Why Businesses Choose SupportAI?
+                    </motion.h2>
+
+                    <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-10">
+                        {/* Features will go here */}
+                        {features.map((feature, index) => (
+                            <motion.div
+                                key={index}
+                                initial={{ opacity: 0, y: 30 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ delay: index * 0.1}}
+                                viewport={{ once: false}}
+                                className="bg-white rounded-2xl p-8 shadow-lg border border-zinc-200"
+                            >
+                                <h1 className="text-lg font-medium">{feature.title}</h1>
+                                <p className="mt-3 text-zinc-600 text-sm">{feature.description}</p>
+                            </motion.div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            <footer className="py-10 text-center text-sm text-zinc-500">
+                &copy; {new Date().getFullYear()} SupportAI. All rights reserved.
+            </footer>
         </div>
     )
 }
