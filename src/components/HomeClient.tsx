@@ -7,7 +7,10 @@ import { useEffect, useRef, useState } from "react";
 
 function HomeClient({ email }: { email?: string }) {
 
+    const [loading, setLoading] = useState(false);
+
     const handleLogin = () => {
+        setLoading(true);
         window.location.href = '/api/auth/login';
     }
 
@@ -89,8 +92,9 @@ function HomeClient({ email }: { email?: string }) {
                         className="px-5 py-2 rounded-full bg-black text-white text-sm font-medium hover:bg-zinc-800
                                transition disabled:opacity-60 flex items-center gap-2"
                         onClick={handleLogin}
+                        disabled={loading}
                     >
-                        LogIn
+                        {loading ? "Loading..." : "Login"}
                     </button>}
 
                 </div>
@@ -119,8 +123,9 @@ function HomeClient({ email }: { email?: string }) {
                             </button> : <button
                                 className="px-7 py-3 rounded-xl bg-black text-white font-medium hover:bg-zinc-800 transition disabled:opacity-60"
                                 onClick={handleLogin}
+                                disabled={loading}
                             >
-                                Get Started
+                                {loading ? "Loading..." : "Get Started"}
                             </button>}
 
                             <a
